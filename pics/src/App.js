@@ -1,40 +1,31 @@
-import axios from "axios";
+
 import React, { useState } from "react";
 import SearchBar from "./components/searchBar";
-import CarList from "./components/carList";
+import getData from "./api";
+import ImageList from "./components/imageList";
+import './style.css'
 
 const App = () => {
 
+    const [images, setImages] = useState([]);
 
-    const [searchData, setSearchData] = useState('')
+    const handleSubmit = async (type) => {
+        const result = await getData(type);
 
-    const handleChanges = (e) => {
-        e.preventDefault();
-        setSearchData(e.target.value)
+        console.log("result", result);
+
+        setImages(result)
     }
 
-    console.log(searchData);
 
-    // const getData = async () => {
-    //     const responseResult = await axios.get('https://api.unsplash.com/search/photos', {
-    //         headers: {
-    //             Authorization: `Client-ID ladcGkVdefFSMRcrOt0_yPl3NNHXprR1tJH_hrkAUlU`
-    //         },
-    //         params: {
-    //             query: 'cars',
-    //         }
-    //     })
 
-    //     return responseResult
-    // }
 
-    // console.log(getData());
 
     return (
         <>
             <div>
-                <SearchBar changeVal={handleChanges} />
-                <CarList searchValue={searchData} />
+                <SearchBar onSubmit={handleSubmit} />
+                <ImageList image={images} />
             </div>
         </>
 
